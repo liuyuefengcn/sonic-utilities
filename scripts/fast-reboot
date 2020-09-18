@@ -277,9 +277,15 @@ function setup_reboot_variables()
         KERNEL_IMAGE="$(ls $IMAGE_PATH/boot/vmlinuz-*)"
         BOOT_OPTIONS="$(cat "$IMAGE_PATH/kernel-cmdline" | tr '\n' ' ') SONIC_BOOT_TYPE=${BOOT_TYPE_ARG}"
     elif grep -q onie_platform= /host/machine.conf; then
-        KERNEL_OPTIONS=$(cat /host/grub/grub.cfg | sed "/$NEXT_SONIC_IMAGE'/,/}/"'!'"g" | grep linux)
-        KERNEL_IMAGE="/host$(echo $KERNEL_OPTIONS | cut -d ' ' -f 2)"
-        BOOT_OPTIONS="$(echo $KERNEL_OPTIONS | sed -e 's/\s*linux\s*/BOOT_IMAGE=/') SONIC_BOOT_TYPE=${BOOT_TYPE_ARG}"
+	if [ "`uname -a | grep arm64`" != "" ] ; then
+		KERNEL_IMAGE=`find ${IMAGE_PATH}/boot -name vmlinuz*`
+		BOOT_OPTIONS="quiet console=ttyAMA0,115200 root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 loopfstype=squashfs loop=image-${NEXT_SONIC_IMAGE#SONiC-OS-}/fs.squashfs SONIC_BOOT_TYPE=${BOOT_TYPE_ARG}"
+		# DTB_IMAGE=`find ${IMAGE_PATH}/boot -name e530-ctc5236.dtb`
+	else
+        	KERNEL_OPTIONS=$(cat /host/grub/grub.cfg | sed "/$NEXT_SONIC_IMAGE'/,/}/"'!'"g" | grep linux)
+        	KERNEL_IMAGE="/host$(echo $KERNEL_OPTIONS | cut -d ' ' -f 2)"
+        	BOOT_OPTIONS="$(echo $KERNEL_OPTIONS | sed -e 's/\s*linux\s*/BOOT_IMAGE=/') SONIC_BOOT_TYPE=${BOOT_TYPE_ARG}"
+        fi
     else
         error "Unknown bootloader. ${REBOOT_TYPE} is not supported."
         exit "${EXIT_NOT_SUPPORTED}"
@@ -408,6 +414,11 @@ if [[ "$sonic_asic_type" == "mellanox" ]]; then
 fi
 
 # Load kernel into the memory
+#if [ "$DTB_IMAGE" == "" ]; then
+#	/sbin/kexec -l "$KERNEL_IMAGE" --initrd="$INITRD" --append="$BOOT_OPTIONS"
+#else
+#	/sbin/kexec -l "$KERNEL_IMAGE" --initrd="$INITRD" --dtb="$DTB_IMAGE" --append="$BOOT_OPTIONS"
+#fi
 /sbin/kexec -l "$KERNEL_IMAGE" --initrd="$INITRD" --append="$BOOT_OPTIONS"
 
 if [[ "$REBOOT_TYPE" = "fast-reboot" ]]; then
