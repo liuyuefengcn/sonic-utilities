@@ -12228,7 +12228,9 @@ This command displays TWAMP Light session's test result of delay time. "session_
   ```
 
 ### TWAMP Light config commands
+
 **config twamp-light sender with packet count mode**
+
 This command is used to create a TWAMP Light sender session with packet count mode. Session information can be specified by the parameter, such as <session_name>, <sender_ip_port>,  <reflector_ip_port>, <packet_count>, <tx_interval>, <timeout>, <statistics_interval>.
 
 - Usage:
@@ -12242,6 +12244,7 @@ This command is used to create a TWAMP Light sender session with packet count mo
   ```
 
 **config twamp-light sender with packet continuous mode**
+
 This command is used to create a TWAMP Light sender session with packet continuous mode. Session information can be specified by the parameter, such as <session_name>, <sender_ip_port>,  <reflector_ip_port>, <monitor_time>, <tx_interval>, <timeout>, <statistics_interval>.
 
 - Usage:
@@ -12256,6 +12259,7 @@ This command is used to create a TWAMP Light sender session with packet continuo
 
 
 **config twamp-light reflector**
+
 This command is used to create a TWAMP Light reflector session. Session information can be specified by the parameter, such as <session_name>, <sender_ip_port>,  <reflector_ip_port>.
 
 - Usage:
@@ -12269,6 +12273,7 @@ This command is used to create a TWAMP Light reflector session. Session informat
   ```
 
 **Start TWAMP Light session**
+
 This command is used to start a TWAMP Light sender session. If the parameter "all" is used, all session will be started. If the <session_name> is specified, only the session match the <session_name> will be started.
 
 - Usage:
@@ -12282,6 +12287,7 @@ This command is used to start a TWAMP Light sender session. If the parameter "al
   ```
 
 **Stop TWAMP Light session**
+
 This command is used to stop a TWAMP Light sender session. If the parameter "all" is used, all session will be stopped. If the <session_name> is specified, only the session match the <session_name> will be stopped.
 
 - Usage:
