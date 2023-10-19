@@ -12161,7 +12161,7 @@ This command displays TWAMP Light session's test result of packet loss. "session
 
 - Usage:
   ```
-  show TWAMP-Light statistics twoway-loss [<session_name>]
+  show twamp-light statistics twoway-loss [<session_name>]
   ```
 
 - Example:
@@ -12197,7 +12197,7 @@ This command displays TWAMP Light session's test result of delay time. "session_
 
 - Usage:
   ```
-  show TWAMP-Light statistics twoway-delay [<session_name>]
+  show twamp-light statistics twoway-delay [<session_name>]
   ```
 
 - Example:
